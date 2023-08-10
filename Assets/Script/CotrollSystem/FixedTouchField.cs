@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector]
@@ -14,6 +15,15 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public Transform targetCamera; // Reference to the camera you want to rotate
     public float rotationSpeed = 2.0f; // Adjust this value to control rotation speed
+    public float upLimit = -45f; // Angle limit for looking up
+    public float downLimit = 20f; // Angle limit for looking down
+
+    private float currentRotationX = 0f;
+
+    void Start()
+    {
+        currentRotationX = targetCamera.localRotation.eulerAngles.x;
+    }
 
     void Update()
     {
@@ -26,7 +36,9 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
                 // Rotate the camera based on the vertical movement
                 float rotationX = TouchDist.y * rotationSpeed;
-                targetCamera.Rotate(Vector3.right, -rotationX);
+                currentRotationX -= rotationX;
+                currentRotationX = Mathf.Clamp(currentRotationX, upLimit, downLimit);
+                targetCamera.localRotation = Quaternion.Euler(currentRotationX, 0f, 0f);
             }
             else
             {
@@ -35,7 +47,9 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
                 // Rotate the camera based on the vertical movement
                 float rotationX = TouchDist.y * rotationSpeed;
-                targetCamera.Rotate(Vector3.right, -rotationX);
+                currentRotationX -= rotationX;
+                currentRotationX = Mathf.Clamp(currentRotationX, upLimit, downLimit);
+                targetCamera.localRotation = Quaternion.Euler(currentRotationX, 0f, 0f);
             }
         }
         else
