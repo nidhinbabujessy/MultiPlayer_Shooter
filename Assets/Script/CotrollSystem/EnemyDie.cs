@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyDie : MonoBehaviour
 {
     public float health = 50f;
+    public GameObject box;
 
    
 
@@ -19,6 +20,7 @@ public class EnemyDie : MonoBehaviour
     }
     void Die()
     {
+        box.SetActive(true);
         Destroy(gameObject);
     }
 }

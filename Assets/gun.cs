@@ -9,6 +9,9 @@ public class gun : MonoBehaviour
     public ParticleSystem mucleFlash;
     public GameObject fireEffect;
 
+    // animation
+    public Animator Aplayer;
+
     void Update()
     {
     }
@@ -17,7 +20,8 @@ public class gun : MonoBehaviour
     public void Shoot()
     {
         mucleFlash.Play();
-    
+        Aplayer.Play("ShootAutoshot_AR_Anim");
+
         RaycastHit hit;
         if(Physics.Raycast(fpsCam.transform.position,fpsCam.transform.forward,out hit,range ))
             {
